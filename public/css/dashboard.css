@@ -1,0 +1,71 @@
+/* Dashboard Stat Cards */
+.stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card .stat-icon {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 5rem;
+    opacity: 0.1;
+    transform: rotate(-15deg);
+    transition: all 0.5s ease;
+}
+
+.stat-card:hover .stat-icon {
+    transform: rotate(0deg) scale(1.1);
+    opacity: 0.15;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0;
+}
+
+.stat-label {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #64748b;
+}
+
+/* Specific Card Accents */
+.card-pending {
+    border-left: 5px solid #f59e0b;
+}
+
+.card-success {
+    border-left: 5px solid #10b981;
+}
+
+.card-danger {
+    border-left: 5px solid #ef4444;
+}
+
+.card-info {
+    border-left: 5px solid #3b82f6;
+}
+
+/* Calendar overrides if used */
+#calendar {
+    padding: 20px;
+}
+
+.fc-header-toolbar {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Chart containers */
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+/* Smooth transitions for all cards */
+.row>div {
+    transition: all 0.3s ease;
+}

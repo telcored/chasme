@@ -5,11 +5,22 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="Jaime Cornejo CRM" />
     <meta name="author" content="Telcored" />
-    <title>CRM</title>
+    <title>{{ $settings['name'] ?? 'CRM' }} - {{ config('app.name') }}</title>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Core CSS -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/all.min.css') }}" rel="stylesheet" />
+
+    <!-- Custom Modern Theme -->
+    <link href="{{ asset('css/common.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" />
+
     @stack('style')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -17,7 +28,7 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="{{ route('credito.index') }}">Jaime Cornejo</a>
+        <a class="navbar-brand ps-3" href="{{ route('dashboard') }}">{{ $settings['name'] ?? 'Chasme' }}</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -61,14 +72,14 @@
                     @yield('content')
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
+            <footer class="py-4 bg-transparent mt-auto opacity-75">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Jaime Cornejo 2026</div>
+                        <div class="text-muted">Copyright &copy; {{ $settings['name'] ?? 'Chasme' }} {{ date('Y') }}</div>
                         <div>
-                            <a href="https://github.com/telcored">Github</a>
+                            <a href="https://github.com/telcored" class="text-decoration-none me-2">Github</a>
                             &middot;
-                            <a href="https://telcored.cl">Website</a>
+                            <a href="https://telcored.cl" class="text-decoration-none ms-2">Website</a>
                         </div>
                     </div>
                 </div>

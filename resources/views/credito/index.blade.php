@@ -2,117 +2,129 @@
 
 @section('content')
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Créditos y Abonos</h1>
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <a href="{{ route('credito.create') }}" class="btn btn-primary">Nuevo Registro</a>
-            <a href="{{ route('clients.create') }}" class="btn btn-warning">Nuevo Cliente</a>
-        </div>
-        <div class="col-md-6 text-end">
-            <!-- Filter Form -->
-            <form action="{{ route('credito.index') }}" method="GET" class="d-flex justify-content-end">
-                <select name="client_id" class="form-select me-2" onchange="this.form.submit()" style="max-width: 300px;">
-                    <option value="">-- Todos los Clientes --</option>
-                    @foreach($clients as $client)
-                    <option value="{{ $client->id }}" {{ $clientId == $client->id ? 'selected' : '' }}>
-                        {{ $client->name }}
-                    </option>
-                    @endforeach
-                </select>
-                @if($clientId)
-                <a href="{{ route('credito.index') }}" class="btn btn-secondary">Limpiar</a>
-                @endif
-            </form>
+<div class="animate-fade-in">
+    <div class="d-flex align-items-center justify-content-between mb-4 mt-4">
+        <h3 class="fw-bold mb-0">Créditos y Abonos</h3>
+        <div class="d-flex gap-2">
+            <a href="{{ route('credito.create') }}" class="btn btn-primary shadow-sm"><i class="fas fa-plus me-1"></i> Registro</a>
+            <a href="{{ route('clients.create') }}" class="btn btn-outline-primary shadow-sm"><i class="fas fa-user-plus me-1"></i> Cliente</a>
         </div>
     </div>
 
+    <!-- Filter Form -->
+    <div class="glass-card p-3 mb-4">
+        <form action="{{ route('credito.index') }}" method="GET" class="row align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                    <select name="client_id" class="form-select border-start-0" onchange="this.form.submit()">
+                        <option value="">-- Todos los Clientes --</option>
+                        @foreach($clients as $client)
+                        <option value="{{ $client->id }}" {{ $clientId == $client->id ? 'selected' : '' }}>
+                            {{ $client->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            @if($clientId)
+            <div class="col-md-2">
+                <a href="{{ route('credito.index') }}" class="btn btn-link text-decoration-none">Limpiar filtros</a>
+            </div>
+            @endif
+        </form>
+    </div>
+
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show shadow-sm mb-4" role="alert">
+        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
     <!-- Summary Box -->
     @if($clientId && !empty($summary))
-    <div class="row mb-4">
+    <div class="row mb-4 g-4">
         <div class="col-md-4">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Total Cargos (Deuda Total)</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <span class="h4">${{ number_format($summary['total_cargos'], 0, ',', '.') }}</span>
-                </div>
+            <div class="glass-card stat-card card-info h-100 p-4">
+                <div class="stat-label">Total Cargos</div>
+                <div class="stat-value text-primary">${{ number_format($summary['total_cargos'], 0, ',', '.') }}</div>
+                <div class="stat-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card bg-success text-white mb-4">
-                <div class="card-body">Total Abonos (Pagado)</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <span class="h4">${{ number_format($summary['total_abonos'], 0, ',', '.') }}</span>
-                </div>
+            <div class="glass-card stat-card card-success h-100 p-4">
+                <div class="stat-label">Total Abonos</div>
+                <div class="stat-value text-success">${{ number_format($summary['total_abonos'], 0, ',', '.') }}</div>
+                <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card {{ $summary['saldo'] > 0 ? 'bg-danger' : 'bg-secondary' }} text-white mb-4">
-                <div class="card-body">Saldo Pendiente (Deuda Actual)</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <span class="h4">${{ number_format($summary['saldo'], 0, ',', '.') }}</span>
-                </div>
+            <div class="glass-card stat-card {{ $summary['saldo'] > 0 ? 'card-danger' : 'card-success' }} h-100 p-4">
+                <div class="stat-label">Saldo Pendiente</div>
+                <div class="stat-value {{ $summary['saldo'] > 0 ? 'text-danger' : 'text-success' }}">${{ number_format($summary['saldo'], 0, ',', '.') }}</div>
+                <div class="stat-icon"><i class="fa-solid fa-scale-balanced"></i></div>
             </div>
         </div>
     </div>
     @endif
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Registros
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered table-striped">
+    <div class="glass-card mb-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
+                        <th class="ps-4">Fecha</th>
                         <th>Cliente</th>
                         <th>Glosa</th>
                         <th>Tipo</th>
-                        <th>Monto</th>
-                        <th>Acciones</th>
+                        <th class="text-end">Monto</th>
+                        <th class="text-end pe-4">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($creditos as $credito)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($credito->fecha)->format('d-m-Y') }}</td>
-                        <td>{{ $credito->client->name }}</td>
-                        <td>{{ $credito->glosa }}</td>
+                    <tr class="align-middle">
+                        <td class="ps-4 small text-secondary">
+                            {{ \Carbon\Carbon::parse($credito->fecha)->format('d/m/Y') }}
+                        </td>
+                        <td class="fw-bold">{{ $credito->client->name }}</td>
+                        <td class="small">{{ $credito->glosa }}</td>
                         <td>
                             @if($credito->tipo == 'cargo')
-                            <span class="badge bg-danger">Cargo</span>
+                            <span class="badge bg-soft-danger text-danger border border-danger border-opacity-25" style="background: rgba(239, 68, 68, 0.1);">Cargo</span>
                             @else
-                            <span class="badge bg-success">Abono</span>
+                            <span class="badge bg-soft-success text-success border border-success border-opacity-25" style="background: rgba(16, 185, 129, 0.1);">Abono</span>
                             @endif
                         </td>
-                        <td class="text-end">${{ number_format($credito->monto, 0, ',', '.') }}</td>
-                        <td>
-                            <a href="{{ route('credito.edit', $credito->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('credito.destroy', $credito->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este registro?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                            </form>
+                        <td class="text-end fw-bold {{ $credito->tipo == 'cargo' ? 'text-danger' : 'text-success' }}">
+                            ${{ number_format($credito->monto, 0, ',', '.') }}
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group">
+                                <a href="{{ route('credito.edit', $credito->id) }}" class="btn btn-light btn-sm border" title="Editar"><i class="fas fa-edit text-warning"></i></a>
+                                <form action="{{ route('credito.destroy', $credito->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-light btn-sm border" onclick="return confirm('¿Eliminar este registro?')" title="Eliminar"><i class="fas fa-trash text-danger"></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center">No hay registros encontrados.</td>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
+                            <p>No se encontraron registros para este criterio.</p>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
-            {{ $creditos->appends(['client_id' => $clientId])->links() }}
         </div>
+    </div>
+    <div class="mt-3">
+        {{ $creditos->appends(['client_id' => $clientId])->links() }}
     </div>
 </div>
 

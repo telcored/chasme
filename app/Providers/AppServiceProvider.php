@@ -27,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrapFive();
 
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                $view->with('settings', \App\Models\Setting::all()->pluck('value', 'key')->toArray());
+            }
+        });
+
         Blade::if('permission', function ($permissions) {
             $user = auth()->user();
             if (! $user) {
