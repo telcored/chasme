@@ -31,7 +31,7 @@ Un script ligero de **Python** diseñado para correr en cualquier lugar (**Termu
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Backend**: Laravel 10 (PHP 8.1+)
+- **Backend**: Laravel 11 (PHP 8.1+)
 - **Base de Datos**: MySQL / MariaDB
 - **Asistente**: Python 3.x (SpeechRecognition, Requests, Dotenv)
 - **Automatización**: n8n
